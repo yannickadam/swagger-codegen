@@ -13,7 +13,7 @@
 /**
  * Swagger Petstore
  *
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -167,7 +167,7 @@ class ApiClient
         if ($this->config->getCurlConnectTimeout() != 0) {
             curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->config->getCurlConnectTimeout());
         }
-        
+
         // return the result on success, rather than just true
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
@@ -179,8 +179,28 @@ class ApiClient
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         }
 
+        if ($this->config->getCurlProxyHost()) {
+            curl_setopt($curl, CURLOPT_PROXY, $this->config->getCurlProxyHost());
+        }
+
+        if ($this->config->getCurlProxyPort()) {
+            curl_setopt($curl, CURLOPT_PROXYPORT, $this->config->getCurlProxyPort());
+        }
+
+        if ($this->config->getCurlProxyType()) {
+            curl_setopt($curl, CURLOPT_PROXYTYPE, $this->config->getCurlProxyType());
+        }
+
+        if ($this->config->getCurlProxyUser()) {
+            curl_setopt($curl, CURLOPT_PROXYUSERPWD, $this->config->getCurlProxyUser() . ':' .$this->config->getCurlProxyPassword());
+        }
+
         if (!empty($queryParams)) {
             $url = ($url . '?' . http_build_query($queryParams));
+        }
+
+        if ($this->config->getAllowEncoding()) {
+            curl_setopt($curl, CURLOPT_ENCODING, '');
         }
 
         if ($method === self::$POST) {

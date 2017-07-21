@@ -15,6 +15,9 @@ public class TypeScriptAngular2ClientOptionsProvider implements OptionsProvider 
     private static final String NMP_NAME = "npmName";
     private static final String NMP_VERSION = "1.1.2";
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
+    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
+    public static final String NG_VERSION = "2";
+
 
     @Override
     public String getLanguage() {
@@ -31,7 +34,10 @@ public class TypeScriptAngular2ClientOptionsProvider implements OptionsProvider 
                 .put(TypeScriptAngular2ClientCodegen.NPM_NAME, NMP_NAME)
                 .put(TypeScriptAngular2ClientCodegen.NPM_VERSION, NMP_VERSION)
                 .put(TypeScriptAngular2ClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
+                .put(TypeScriptAngular2ClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
                 .put(TypeScriptAngular2ClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
+                .put(TypeScriptAngular2ClientCodegen.NG_VERSION, NG_VERSION)
+                .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .build();
     }
 

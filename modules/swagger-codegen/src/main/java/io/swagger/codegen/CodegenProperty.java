@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CodegenProperty implements Cloneable {
-    public String baseName, complexType, getter, setter, description, datatype, datatypeWithEnum,
-            dataFormat, name, min, max, defaultValue, defaultValueWithParam, baseType, containerType;
+    public String baseName, complexType, getter, setter, description, datatype,
+          datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
+          baseType, containerType, title;
 
+    /** The 'description' string without escape charcters needed by some programming languages/targets */
     public String unescapedDescription;
 
     /**
@@ -53,6 +55,12 @@ public class CodegenProperty implements Cloneable {
     public Integer maxItems;
     public Integer minItems;
 
+    // XML
+    public boolean isXmlAttribute = false;
+    public String xmlPrefix;
+    public String xmlName;
+    public String xmlNamespace;
+
 
     @Override
     public String toString() {
@@ -77,6 +85,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
         result = prime * result + ((defaultValueWithParam == null) ? 0 : defaultValueWithParam.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
         result = prime * result + ((example == null) ? 0 : example.hashCode());
         result = prime * result + (exclusiveMaximum ? 13:31);
         result = prime * result + (exclusiveMinimum ? 13:31);
@@ -122,6 +131,10 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + Objects.hashCode(enumName);
         result = prime * result + ((maxItems == null) ? 0 : maxItems.hashCode());
         result = prime * result + ((minItems == null) ? 0 : minItems.hashCode());
+        result = prime * result + ((isXmlAttribute  ? 13:31));
+        result = prime * result + ((xmlPrefix == null) ? 0 : xmlPrefix.hashCode());
+        result = prime * result + ((xmlName == null) ? 0 : xmlName.hashCode());
+        result = prime * result + ((xmlNamespace == null) ? 0 : xmlNamespace.hashCode());
         return result;
     }
 
@@ -147,6 +160,9 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
+            return false;
+        }
+        if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
             return false;
         }
         if ((this.datatype == null) ? (other.datatype != null) : !this.datatype.equals(other.datatype)) {
@@ -294,14 +310,26 @@ public class CodegenProperty implements Cloneable {
         if (this.minItems != other.minItems && (this.minItems == null || !this.minItems.equals(other.minItems))) {
             return false;
         }
+        if (!Objects.equals(this.isXmlAttribute, other.isXmlAttribute)) {
+            return false;
+        }
+        if (!Objects.equals(this.xmlPrefix, other.xmlPrefix)) {
+            return false;
+        }
+        if (!Objects.equals(this.xmlName, other.xmlName)) {
+            return false;
+        }
+        if (!Objects.equals(this.xmlNamespace, other.xmlNamespace)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public CodegenProperty clone() {
         try {
-        	CodegenProperty cp = (CodegenProperty) super.clone();
-        	if (this._enum != null) {
+            CodegenProperty cp = (CodegenProperty) super.clone();
+            if (this._enum != null) {
                 cp._enum = new ArrayList<String>(this._enum);
             }
             if (this.allowableValues != null) {
@@ -310,14 +338,14 @@ public class CodegenProperty implements Cloneable {
             if (this.items != null) {
                 cp.items = this.items;
             }
-        	if(this.vendorExtensions != null){
+            if(this.vendorExtensions != null){
                 cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
             }
-        	return cp;
+            return cp;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException(e);
         }
     }
-    
-    
+
+
 }
