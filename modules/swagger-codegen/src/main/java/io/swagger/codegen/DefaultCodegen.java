@@ -1375,6 +1375,9 @@ public class DefaultCodegen {
             for(CodegenProperty prop : m.vars) {
                 postProcessModelProperty(m, prop);
             }
+            for(CodegenProperty prop : m.allVars) {
+                postProcessModelProperty(m, prop);
+            }
         }
         return m;
     }
