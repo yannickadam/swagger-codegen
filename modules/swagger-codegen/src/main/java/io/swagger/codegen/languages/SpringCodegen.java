@@ -39,6 +39,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String basePackage = "io.swagger";
     protected boolean interfaceOnly = false;
     protected boolean delegatePattern = false;
+    protected boolean delegateMethod = false;
     protected boolean singleContentTypes = false;
     protected boolean java8 = false;
     protected boolean async = false;
@@ -67,7 +68,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         cliOptions.add(new CliOption(TITLE, "server title name or client service name"));
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
-        cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code"));
+        cliOptions.add(new CliOption(BASE_PACKAGE, "base package (invokerPackage) for generated code"));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files."));
         cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern"));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation."));
@@ -121,6 +122,13 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (!additionalProperties.containsKey(DATE_LIBRARY)) {
                 setDateLibrary("java8");
             }
+        }
+
+        // set invokerPackage as basePackage
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+            additionalProperties.put(BASE_PACKAGE, basePackage);
+            LOGGER.info("Set base package to invoker package (" + basePackage + ")");
         }
 
         super.processOpts();
@@ -199,8 +207,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (this.interfaceOnly && this.delegatePattern) {
-            throw new IllegalArgumentException(
-                    String.format("Can not generate code with `%s` and `%s` both true.", DELEGATE_PATTERN, INTERFACE_ONLY));
+            if (this.java8) {
+                this.delegateMethod = true;
+                additionalProperties.put("delegate-method", true);
+            } else {
+                throw new IllegalArgumentException(
+                        String.format("Can not generate code with `%s` and `%s` true while `%s` is false.",
+                                DELEGATE_PATTERN, INTERFACE_ONLY, JAVA_8));
+            }
         }
 
         if (!this.interfaceOnly) {
@@ -239,8 +253,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                     additionalProperties.put(SINGLE_CONTENT_TYPES, "true");
                     this.setSingleContentTypes(true);
                 }
-                additionalProperties.put("useSpringCloudClient", true);
-
             } else {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
                 supportingFiles.add(new SupportingFile("apiException.mustache",
@@ -268,12 +280,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
         
-        if (!this.delegatePattern && this.java8) {
+        if ((!this.delegatePattern && this.java8) || this.delegateMethod) {
             additionalProperties.put("jdk8-no-delegate", true);
         }
 
 
-        if (this.delegatePattern) {
+        if (this.delegatePattern && !this.delegateMethod) {
             additionalProperties.put("isDelegate", "true");
             apiTemplateFiles.put("apiDelegate.mustache", "Delegate.java");
         }
@@ -303,7 +315,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.util.concurrent.ListenableFuture");
                 break;
             case "DeferredResult":
-                additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.web.context.request.DeferredResult");
+                additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.web.context.request.async.DeferredResult");
                 break;
             case "HystrixCommand":
                 additionalProperties.put(RESPONSE_WRAPPER, "com.netflix.hystrix.HystrixCommand");

@@ -15,7 +15,7 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.SupportingFile;
 
 public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptJqueryClientCodegen.class);
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
 
     public static final String NPM_NAME = "npmName";
@@ -130,6 +130,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         }
 
         //Files for building our lib
+        supportingFiles.add(new SupportingFile("README.mustache", getPackageRootDirectory(), "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", getPackageRootDirectory(), "package.json"));
         supportingFiles.add(new SupportingFile("typings.mustache", getPackageRootDirectory(), "typings.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", getPackageRootDirectory(), "tsconfig.json"));

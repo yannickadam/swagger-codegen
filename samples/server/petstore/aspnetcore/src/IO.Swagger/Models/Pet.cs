@@ -68,19 +68,19 @@ namespace IO.Swagger.Models
             /// Enum AvailableEnum for "available"
             /// </summary>
             [EnumMember(Value = "available")]
-            AvailableEnum,
+            AvailableEnum = 1,
             
             /// <summary>
             /// Enum PendingEnum for "pending"
             /// </summary>
             [EnumMember(Value = "pending")]
-            PendingEnum,
+            PendingEnum = 2,
             
             /// <summary>
             /// Enum SoldEnum for "sold"
             /// </summary>
             [EnumMember(Value = "sold")]
-            SoldEnum
+            SoldEnum = 3
         }
 
         /// <summary>
@@ -178,24 +178,23 @@ namespace IO.Swagger.Models
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                var hash = 41;
+                var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
                     if (Id != null)
-                    hash = hash * 59 + Id.GetHashCode();
+                    hashCode = hashCode * 59 + Id.GetHashCode();
                     if (Category != null)
-                    hash = hash * 59 + Category.GetHashCode();
+                    hashCode = hashCode * 59 + Category.GetHashCode();
                     if (Name != null)
-                    hash = hash * 59 + Name.GetHashCode();
+                    hashCode = hashCode * 59 + Name.GetHashCode();
                     if (PhotoUrls != null)
-                    hash = hash * 59 + PhotoUrls.GetHashCode();
+                    hashCode = hashCode * 59 + PhotoUrls.GetHashCode();
                     if (Tags != null)
-                    hash = hash * 59 + Tags.GetHashCode();
+                    hashCode = hashCode * 59 + Tags.GetHashCode();
                     if (Status != null)
-                    hash = hash * 59 + Status.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + Status.GetHashCode();
+                return hashCode;
             }
         }
 

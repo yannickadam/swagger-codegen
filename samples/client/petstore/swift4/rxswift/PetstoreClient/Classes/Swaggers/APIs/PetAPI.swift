@@ -34,9 +34,9 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             addPet(body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -93,9 +93,9 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             deletePet(petId: petId, apiKey: apiKey) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -165,7 +165,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             findPetsByStatus(status: status) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -192,15 +192,34 @@ open class PetAPI {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -215,15 +234,34 @@ open class PetAPI {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -271,7 +309,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             findPetsByTags(tags: tags) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -298,15 +336,34 @@ open class PetAPI {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -321,15 +378,34 @@ open class PetAPI {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -377,7 +453,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             getPetById(petId: petId) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -404,15 +480,18 @@ open class PetAPI {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -427,15 +506,18 @@ open class PetAPI {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -481,9 +563,9 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             updatePet(body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -542,9 +624,9 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             updatePetWithForm(petId: petId, name: name, status: status) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -612,7 +694,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -631,8 +713,8 @@ open class PetAPI {
        - name: petstore_auth
      - examples: [{contentType=application/json, example={
   "code" : 0,
-  "type" : "aeiou",
-  "message" : "aeiou"
+  "type" : "type",
+  "message" : "message"
 }}]
      
      - parameter petId: (path) ID of pet to update 

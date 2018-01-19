@@ -51,7 +51,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
         additionalProperties.put(BASE_PACKAGE, basePackage);
-
+        additionalProperties.put("java8", true);
         additionalProperties.put("jackson", "true");
 
         cliOptions.add(new CliOption(TITLE, "server title name or client service name"));
@@ -153,6 +153,9 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         supportingFiles.add(new SupportingFile("routes.mustache", "conf", "routes"));
 
         //App/Utils folder
+        if (!this.controllerOnly && this.useInterfaces) {
+            supportingFiles.add(new SupportingFile("module.mustache", "app", "Module.java"));
+        }
         supportingFiles.add(new SupportingFile("swaggerUtils.mustache", "app/swagger", "SwaggerUtils.java"));
         if (this.handleExceptions) {
             supportingFiles.add(new SupportingFile("errorHandler.mustache", "app/swagger", "ErrorHandler.java"));
@@ -260,7 +263,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                     }
                 }
 
-                Pattern pathVariableMatcher = Pattern.compile("\\{(.+)}");
+                Pattern pathVariableMatcher = Pattern.compile("\\{([^}]+)}");
                 Matcher match = pathVariableMatcher.matcher(operation.path);
                 while (match.find()) {
                     String completeMatch = match.group();
@@ -269,11 +272,18 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                 }
 
                 if (operation.returnType != null) {
+                    if (operation.returnType.equals("Boolean")) {
+                        operation.vendorExtensions.put("missingReturnInfoIfNeeded", "true");
+                    }
+                    if (operation.returnType.equals("BigDecimal")) {
+                        operation.vendorExtensions.put("missingReturnInfoIfNeeded", "1.0");
+                    }
                     if (operation.returnType.startsWith("List")) {
                         String rt = operation.returnType;
                         int end = rt.lastIndexOf(">");
                         if (end > 0) {
                             operation.returnType = rt.substring("List<".length(), end).trim();
+                            operation.returnTypeIsPrimitive = languageSpecificPrimitives().contains(operation.returnType) || operation.returnType == null;
                             operation.returnContainer = "List";
                         }
                     } else if (operation.returnType.startsWith("Map")) {
@@ -281,6 +291,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                         int end = rt.lastIndexOf(">");
                         if (end > 0) {
                             operation.returnType = rt.substring("Map<".length(), end).split(",")[1].trim();
+                            operation.returnTypeIsPrimitive = languageSpecificPrimitives().contains(operation.returnType) || operation.returnType == null;
                             operation.returnContainer = "Map";
                         }
                     } else if (operation.returnType.startsWith("Set")) {
@@ -288,6 +299,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                         int end = rt.lastIndexOf(">");
                         if (end > 0) {
                             operation.returnType = rt.substring("Set<".length(), end).trim();
+                            operation.returnTypeIsPrimitive = languageSpecificPrimitives().contains(operation.returnType) || operation.returnType == null;
                             operation.returnContainer = "Set";
                         }
                     }

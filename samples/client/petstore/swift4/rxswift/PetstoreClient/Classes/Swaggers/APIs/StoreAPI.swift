@@ -34,9 +34,9 @@ open class StoreAPI {
         return Observable.create { observer -> Disposable in
             deleteOrder(orderId: orderId) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -72,7 +72,7 @@ open class StoreAPI {
      
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInventory(completion: @escaping ((_ data: [String:Int32]?,_ error: Error?) -> Void)) {
+    open class func getInventory(completion: @escaping ((_ data: [String:Int]?,_ error: Error?) -> Void)) {
         getInventoryWithRequestBuilder().execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -81,13 +81,13 @@ open class StoreAPI {
     /**
      Returns pet inventories by status
      
-     - returns: Observable<[String:Int32]>
+     - returns: Observable<[String:Int]>
      */
-    open class func getInventory() -> Observable<[String:Int32]> {
+    open class func getInventory() -> Observable<[String:Int]> {
         return Observable.create { observer -> Disposable in
             getInventory() { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -108,9 +108,9 @@ open class StoreAPI {
   "key" : 0
 }}]
 
-     - returns: RequestBuilder<[String:Int32]> 
+     - returns: RequestBuilder<[String:Int]> 
      */
-    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int32]> {
+    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int]> {
         let path = "/store/inventory"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -118,7 +118,7 @@ open class StoreAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<[String:Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<[String:Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -145,7 +145,7 @@ open class StoreAPI {
         return Observable.create { observer -> Disposable in
             getOrderById(orderId: orderId) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -230,7 +230,7 @@ open class StoreAPI {
         return Observable.create { observer -> Disposable in
             placeOrder(body: body) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }

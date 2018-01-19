@@ -8,10 +8,33 @@
 import Foundation
 
 
+
 open class ArrayOfArrayOfNumberOnly: Codable {
 
     public var arrayArrayNumber: [[Double]]?
 
-    public init() {}
 
+    
+    public init(arrayArrayNumber: [[Double]]?) {
+        self.arrayArrayNumber = arrayArrayNumber
+    }
+    
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encodeIfPresent(arrayArrayNumber, forKey: "ArrayArrayNumber")
+    }
+
+    // Decodable protocol methods
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        arrayArrayNumber = try container.decodeIfPresent([[Double]].self, forKey: "ArrayArrayNumber")
+    }
 }
+

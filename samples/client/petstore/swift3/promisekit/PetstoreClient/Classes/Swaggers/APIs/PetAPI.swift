@@ -52,7 +52,7 @@ open class PetAPI: APIBase {
     open class func addPetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -104,7 +104,9 @@ open class PetAPI: APIBase {
      */
     open class func deletePetWithRequestBuilder(petId: Int64, apiKey: String? = nil) -> RequestBuilder<Void> {
         var path = "/pet/{petId}"
-        path = path.replacingOccurrences(of: "{petId}", with: "\(petId)", options: .literal, range: nil)
+        let petIdPreEscape = "\(petId)"
+        let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
 
@@ -173,15 +175,34 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -196,15 +217,34 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -272,15 +312,34 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -295,15 +354,34 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -371,15 +449,18 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -394,15 +475,18 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -412,7 +496,9 @@ open class PetAPI: APIBase {
      */
     open class func getPetByIdWithRequestBuilder(petId: Int64) -> RequestBuilder<Pet> {
         var path = "/pet/{petId}"
-        path = path.replacingOccurrences(of: "{petId}", with: "\(petId)", options: .literal, range: nil)
+        let petIdPreEscape = "\(petId)"
+        let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
 
@@ -464,7 +550,7 @@ open class PetAPI: APIBase {
     open class func updatePetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -519,7 +605,9 @@ open class PetAPI: APIBase {
      */
     open class func updatePetWithFormWithRequestBuilder(petId: Int64, name: String? = nil, status: String? = nil) -> RequestBuilder<Void> {
         var path = "/pet/{petId}"
-        path = path.replacingOccurrences(of: "{petId}", with: "\(petId)", options: .literal, range: nil)
+        let petIdPreEscape = "\(petId)"
+        let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String:Any?] = [
             "name": name,
@@ -577,8 +665,8 @@ open class PetAPI: APIBase {
        - name: petstore_auth
      - examples: [{contentType=application/json, example={
   "code" : 0,
-  "type" : "aeiou",
-  "message" : "aeiou"
+  "type" : "type",
+  "message" : "message"
 }}]
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
@@ -587,7 +675,9 @@ open class PetAPI: APIBase {
      */
     open class func uploadFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> RequestBuilder<ApiResponse> {
         var path = "/pet/{petId}/uploadImage"
-        path = path.replacingOccurrences(of: "{petId}", with: "\(petId)", options: .literal, range: nil)
+        let petIdPreEscape = "\(petId)"
+        let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String:Any?] = [
             "additionalMetadata": additionalMetadata,

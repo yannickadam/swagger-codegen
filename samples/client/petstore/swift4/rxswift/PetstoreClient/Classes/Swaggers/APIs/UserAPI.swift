@@ -34,9 +34,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             createUser(body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -88,9 +88,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             createUsersWithArrayInput(body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -142,9 +142,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             createUsersWithListInput(body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -196,9 +196,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             deleteUser(username: username) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -251,7 +251,7 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             getUserByName(username: username) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -275,14 +275,14 @@ open class UserAPI {
   <phone>aeiou</phone>
   <userStatus>123</userStatus>
 </User>}, {contentType=application/json, example={
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
+  "firstName" : "firstName",
+  "lastName" : "lastName",
+  "password" : "password",
   "userStatus" : 6,
-  "phone" : "aeiou",
+  "phone" : "phone",
   "id" : 0,
-  "email" : "aeiou",
-  "username" : "aeiou"
+  "email" : "email",
+  "username" : "username"
 }}]
      - examples: [{contentType=application/xml, example=<User>
   <id>123456789</id>
@@ -294,14 +294,14 @@ open class UserAPI {
   <phone>aeiou</phone>
   <userStatus>123</userStatus>
 </User>}, {contentType=application/json, example={
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
+  "firstName" : "firstName",
+  "lastName" : "lastName",
+  "password" : "password",
   "userStatus" : 6,
-  "phone" : "aeiou",
+  "phone" : "phone",
   "id" : 0,
-  "email" : "aeiou",
-  "username" : "aeiou"
+  "email" : "email",
+  "username" : "username"
 }}]
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
@@ -346,7 +346,7 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             loginUser(username: username, password: password) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -360,10 +360,10 @@ open class UserAPI {
      Logs user into the system
      - GET /user/login
      - 
-     - responseHeaders: [X-Rate-Limit(Int32), X-Expires-After(Date)]
-     - responseHeaders: [X-Rate-Limit(Int32), X-Expires-After(Date)]
-     - examples: [{contentType=application/xml, example=aeiou}, {contentType=application/json, example="aeiou"}]
-     - examples: [{contentType=application/xml, example=aeiou}, {contentType=application/json, example="aeiou"}]
+     - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
+     - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
+     - examples: [{contentType=application/xml, example=aeiou}, {contentType=application/json, example=""}]
+     - examples: [{contentType=application/xml, example=aeiou}, {contentType=application/json, example=""}]
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
@@ -407,9 +407,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             logoutUser() { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -461,9 +461,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             updateUser(username: username, body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
